@@ -1,6 +1,6 @@
 # terraform-aviatrix-azure-controlplane - release notes
 
-## Unreleased
+## v1.3.0
 - Allow account onboarding with a pre-existing service principal. Set `module_config.app_registration = false` (leave `account_onboarding = true`) and provide the `existing_app_credentials` object (`subscription_id`, `directory_id`, `client_id`, `client_secret`). The module does not create role assignments for a pre-existing service principal; grant it the required Aviatrix roles yourself.
 
 ## v1.2.1
