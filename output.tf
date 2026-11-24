@@ -72,7 +72,7 @@ output "summary" {
     controller_private_ip    = var.module_config.controller_deployment ? module.controller_build[0].controller_private_ip_address : null
     copilot_public_ip        = var.module_config.copilot_deployment ? module.copilot_build[0].public_ip : null
     copilot_private_ip       = var.module_config.copilot_deployment ? module.copilot_build[0].private_ip : null
-    client_id                = var.module_config.app_registration ? module.app_registration[0].client_id : null
+    client_id                = var.module_config.app_registration ? module.app_registration[0].client_id : try(var.existing_app_credentials.client_id, null)
     storage_account_name     = var.module_config.controller_deployment && var.create_storage_account ? module.controller_build[0].storage_account_name : null
     backup_container_name    = var.module_config.controller_deployment && var.create_storage_account ? module.controller_build[0].backup_container_name : null
     terraform_container_name = var.module_config.controller_deployment && var.create_storage_account ? module.controller_build[0].terraform_container_name : null

@@ -164,10 +164,10 @@ module "account_onboarding" {
 
   access_account_name = var.access_account_name
   account_email       = var.account_email
-  arm_subscription_id = module.app_registration[0].subscription_id
-  arm_directory_id    = module.app_registration[0].directory_id
-  arm_client_id       = module.app_registration[0].client_id
-  arm_application_key = module.app_registration[0].application_key
+  arm_subscription_id = var.module_config.app_registration ? module.app_registration[0].subscription_id : try(var.existing_app_credentials.subscription_id, "")
+  arm_directory_id    = var.module_config.app_registration ? module.app_registration[0].directory_id : try(var.existing_app_credentials.directory_id, "")
+  arm_client_id       = var.module_config.app_registration ? module.app_registration[0].client_id : try(var.existing_app_credentials.client_id, "")
+  arm_application_key = var.module_config.app_registration ? module.app_registration[0].application_key : try(var.existing_app_credentials.client_secret, "")
 
   depends_on = [
     module.controller_init,

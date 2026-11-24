@@ -33,10 +33,15 @@ resource "terraform_data" "input_checks" {
     #If onboarding is enabled, either app registration should take place, or user should provide credentials.
     precondition {
       condition = (var.module_config.account_onboarding ?
-        var.module_config.app_registration || true #replace last true with logic to check for credential inputs
-        : true                                     #If account onboarding not true, simply pass the check.
+        var.module_config.app_registration || (
+          try(var.existing_app_credentials.subscription_id, "") != "" &&
+          try(var.existing_app_credentials.directory_id, "") != "" &&
+          try(var.existing_app_credentials.client_id, "") != "" &&
+          try(var.existing_app_credentials.client_secret, "") != ""
+        )
+        : true #If account onboarding not true, simply pass the check.
       )
-      error_message = "When you have account onboarding enabled, either provide credentials or have the app registration enabled."
+      error_message = "When account onboarding is enabled and app_registration is disabled, existing_app_credentials must be provided with non-empty subscription_id, directory_id, client_id and client_secret."
     }
 
   }

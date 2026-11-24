@@ -16,6 +16,13 @@ variable "app_name" {
   default     = "aviatrix_controller_app"
 }
 
+variable "existing_app_credentials" {
+  type        = map(string)
+  description = "Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription_id, directory_id, client_id, client_secret. Only used when module_config.app_registration is false and module_config.account_onboarding is true."
+  default     = {}
+  sensitive   = true
+}
+
 variable "app_password_validity_length" {
   type        = string
   description = "Number of hours the app secret will be valid from the apply time. Default is a month"

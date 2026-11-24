@@ -17,6 +17,36 @@ Module version | Terraform version
 :--- | :---
 v1.2.1 | >= 1.3.0
 
+### Using an existing service principal
+By default the module creates a new Azure AD application and service principal (named by `app_name`) and onboards it to the controller. To onboard a pre-existing service principal instead, disable app registration and pass its credentials:
+```hcl
+module "control_plane" {
+  source  = "terraform-aviatrix-modules/azure-controlplane/aviatrix"
+  version = "1.2.1"
+
+  # ...other inputs...
+
+  module_config = {
+    accept_controller_subscription = true,
+    accept_copilot_subscription    = true,
+    controller_deployment          = true,
+    controller_initialization      = true,
+    copilot_deployment             = true,
+    copilot_initialization         = true,
+    app_registration               = false,
+    account_onboarding             = true,
+  }
+
+  existing_app_credentials = {
+    subscription_id = var.sub_id
+    directory_id    = var.tenant_id
+    client_id       = var.spn_client_id
+    client_secret   = var.spn_client_secret # e.g. TF_VAR_spn_client_secret
+  }
+}
+```
+`app_name`, `app_password_validity_length`, `create_custom_role`, `subscription_ids`, `aviatrix_rgs` and `aviatrix_role_names` are ignored in this mode. The module does not create role assignments for an existing service principal, so make sure it already holds the roles Aviatrix requires.
+
 ### Usage Example
 ```hcl
 provider "azurerm" {
@@ -73,6 +103,7 @@ output "controlplane_data" {
 | <a name="input_create_custom_role"></a> [create\_custom\_role](#input\_create\_custom\_role) | Enable creation of custom role in stead of using contributor permissions | `bool` | `false` | no |
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | Storage account used for the controller backup and terraform state | `bool` | `true` | no |
 | <a name="input_customer_id"></a> [customer\_id](#input\_customer\_id) | aviatrix customer license id | `string` | n/a | yes |
+| <a name="input_existing_app_credentials"></a> [existing\_app\_credentials](#input\_existing\_app\_credentials) | Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription\_id, directory\_id, client\_id, client\_secret. Only used when module\_config.app\_registration is false and module\_config.account\_onboarding is true. | `map(string)` | `{}` | no |
 | <a name="input_incoming_service_tags"></a> [incoming\_service\_tags](#input\_incoming\_service\_tags) | Incoming service tags for security group used by controller | `list(string)` | `[]` | no |
 | <a name="input_incoming_ssl_cidrs"></a> [incoming\_ssl\_cidrs](#input\_incoming\_ssl\_cidrs) | Incoming cidrs for security group used by controller | `list(string)` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Resource Group Location for Aviatrix Controller | `string` | `"West US"` | no |
