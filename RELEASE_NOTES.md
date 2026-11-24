@@ -1,5 +1,8 @@
 # terraform-aviatrix-azure-controlplane - release notes
 
+## v1.3.0
+- Allow account onboarding with a pre-existing service principal. Set `module_config.app_registration = false` (leave `account_onboarding = true`) and provide the `existing_app_credentials` object (`subscription_id`, `directory_id`, `client_id`, `client_secret`). The module does not create role assignments for a pre-existing service principal; grant it the required Aviatrix roles yourself.
+
 ## v1.2.1
 - Allow the controller OS disk to be configured through the new `controller_os_disk_storage_account_type` and `controller_os_disk_size_gb` variables.
 - Controller 8.0 and above require an OS disk delivering at least 500 IOPS, which means `Premium_LRS` at 128G (P10) or larger. Set both variables when deploying those versions; use 512 (P20) or 1024 (P30) for more IOPS at larger scale.
