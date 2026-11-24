@@ -17,9 +17,6 @@ Module version | Terraform version
 :--- | :---
 v1.2.1 | >= 1.3.0
 
-### Using an existing service principal
-To onboard a pre-existing service principal instead of creating a new one, see the **[existing service principal guide](./docs/existing_service_principal.md)**.
-
 ### Usage Example
 ```hcl
 provider "azurerm" {
@@ -76,7 +73,7 @@ output "controlplane_data" {
 | <a name="input_create_custom_role"></a> [create\_custom\_role](#input\_create\_custom\_role) | Enable creation of custom role in stead of using contributor permissions | `bool` | `false` | no |
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | Storage account used for the controller backup and terraform state | `bool` | `true` | no |
 | <a name="input_customer_id"></a> [customer\_id](#input\_customer\_id) | aviatrix customer license id | `string` | n/a | yes |
-| <a name="input_existing_app_credentials"></a> [existing\_app\_credentials](#input\_existing\_app\_credentials) | Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription\_id, directory\_id, client\_id, client\_secret. Only used when module\_config.app\_registration is false and module\_config.account\_onboarding is true. | `map(string)` | `{}` | no |
+| <a name="input_existing_app_credentials"></a> [existing\_app\_credentials](#input\_existing\_app\_credentials) | Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription\_id, directory\_id, client\_id, client\_secret. Only used when module\_config.app\_registration is false and module\_config.account\_onboarding is true. See the [existing service principal guide](./docs/existing_service_principal.md). | `map(string)` | `{}` | no |
 | <a name="input_incoming_service_tags"></a> [incoming\_service\_tags](#input\_incoming\_service\_tags) | Incoming service tags for security group used by controller | `list(string)` | `[]` | no |
 | <a name="input_incoming_ssl_cidrs"></a> [incoming\_ssl\_cidrs](#input\_incoming\_ssl\_cidrs) | Incoming cidrs for security group used by controller | `list(string)` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Resource Group Location for Aviatrix Controller | `string` | `"West US"` | no |

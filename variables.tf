@@ -18,7 +18,7 @@ variable "app_name" {
 
 variable "existing_app_credentials" {
   type        = map(string)
-  description = "Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription_id, directory_id, client_id, client_secret. Only used when module_config.app_registration is false and module_config.account_onboarding is true."
+  description = "Credentials of a pre-existing service principal, used for account onboarding. Required keys: subscription_id, directory_id, client_id, client_secret. Only used when module_config.app_registration is false and module_config.account_onboarding is true. See the [existing service principal guide](./docs/existing_service_principal.md)."
   default     = {}
   sensitive   = true
 }

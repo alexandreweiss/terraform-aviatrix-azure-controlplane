@@ -15,6 +15,3 @@ This module assumes you have Azure CLI installed and are authenticated with suff
 Module version | Terraform version
 :--- | :---
 v1.2.1 | >= 1.3.0
-
-### Using an existing service principal
-To onboard a pre-existing service principal instead of creating a new one, see the **[existing service principal guide](./docs/existing_service_principal.md)**.
